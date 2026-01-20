@@ -231,7 +231,20 @@ async def upload_and_train(
     
     try:
         contents = await file.read()
-        df = pd.read_csv(io.BytesIO(contents), encoding='utf-8-sig')
+        # Try multiple encodings to read the uploaded file
+        df = None
+        for encoding in ['utf-8-sig', 'utf-8', 'latin1', 'cp1252', 'iso-8859-1']:
+            try:
+                df = pd.read_csv(io.BytesIO(contents), encoding=encoding)
+                break
+            except (UnicodeDecodeError, UnicodeError):
+                continue
+        
+        if df is None:
+            raise HTTPException(
+                status_code=400,
+                detail="Unable to read CSV file. Please ensure it's a valid CSV with UTF-8 encoding."
+            )
         
         if len(df) < 5:
             raise HTTPException(
@@ -239,9 +252,9 @@ async def upload_and_train(
                 detail="Dataset must have at least 5 rows"
             )
         
+        # Save with UTF-8-sig encoding for Windows compatibility
         upload_path = f"uploaded_data.csv"
-        with open(upload_path, 'wb') as f:
-            f.write(contents)
+        df.to_csv(upload_path, index=False, encoding='utf-8-sig')
         
         background_tasks.add_task(train_model_background, upload_path, epochs)
         
