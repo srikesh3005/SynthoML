@@ -57,7 +57,7 @@ def main():
         print(f"\nSummary Statistics:")
         print(synthetic_df.describe())
         
-        synthetic_df.to_csv(args.output, index=False)
+        synthetic_df.to_csv(args.output, index=False, encoding='utf-8-sig')
         print(f"\nSaved {len(synthetic_df)} rows to {args.output}")
         
         print("\nTest completed successfully!")

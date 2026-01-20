@@ -76,7 +76,7 @@ class SimpleGenerator:
 
 def train_simple_generator(data_path: str, categorical_cols: list = None):
     """Train and return a simple generator model."""
-    df = pd.read_csv(data_path)
+    df = pd.read_csv(data_path, encoding='utf-8-sig')
     
     # Auto-detect categorical if not specified
     if categorical_cols is None:

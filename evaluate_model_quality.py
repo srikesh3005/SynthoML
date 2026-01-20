@@ -163,7 +163,7 @@ def main():
     
     # Load real data
     print(f"\nLoading real data from {args.data}...")
-    real_df = pd.read_csv(args.data)
+    real_df = pd.read_csv(args.data, encoding='utf-8-sig')
     print(f"  Shape: {real_df.shape}")
     
     # Load model info

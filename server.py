@@ -134,7 +134,7 @@ async def generate_synthetic_data(
         synthetic_df = generate(n=n, seed=seed)
         
         csv_buffer = io.StringIO()
-        synthetic_df.to_csv(csv_buffer, index=False)
+        synthetic_df.to_csv(csv_buffer, index=False, encoding='utf-8-sig')
         csv_string = csv_buffer.getvalue()
         
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -231,7 +231,7 @@ async def upload_and_train(
     
     try:
         contents = await file.read()
-        df = pd.read_csv(io.BytesIO(contents))
+        df = pd.read_csv(io.BytesIO(contents), encoding='utf-8-sig')
         
         if len(df) < 5:
             raise HTTPException(

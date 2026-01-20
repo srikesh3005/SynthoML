@@ -91,7 +91,7 @@ def main():
     args = parser.parse_args()
     
     print(f"\nLoading data from {args.data}...")
-    df = pd.read_csv(args.data)
+    df = pd.read_csv(args.data, encoding='utf-8-sig')
     print(f"   Loaded {len(df)} rows, {len(df.columns)} columns")
     print(f"   Columns: {list(df.columns)}")
     
@@ -146,7 +146,7 @@ def main():
             synthetic_preview = model.sample(args.preview_samples)
         
         preview_path = 'sample_synthetic_preview.csv'
-        synthetic_preview.to_csv(preview_path, index=False)
+        synthetic_preview.to_csv(preview_path, index=False, encoding='utf-8-sig')
         print(f"   ✓ Preview saved to {preview_path}")
         print("\nSample synthetic data preview:")
         print(synthetic_preview.head(10))
