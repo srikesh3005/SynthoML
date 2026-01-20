@@ -1,0 +1,9 @@
+age,gender,systolic_bp,diastolic_bp,hba1c,diagnosis
+45,M,120,80,5.4,healthy
+67,F,145,95,7.8,hypertension
+34,M,118,76,5.1,healthy
+52,F,138,88,6.9,prediabetes
+28,M,115,72,5.0,healthy
+71,M,155,98,8.5,diabetes
+39,F,122,79,5.6,healthy
+58,F,142,90,7.2,hypertension
