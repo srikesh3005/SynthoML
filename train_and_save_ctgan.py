@@ -27,7 +27,7 @@ def train_with_sdv(df, categorical_cols, epochs):
     from sdv.single_table import CTGANSynthesizer
     from sdv.metadata import SingleTableMetadata
     
-    print("✓ Using SDV's CTGANSynthesizer")
+    print("[OK] Using SDV's CTGANSynthesizer")
     
     metadata = SingleTableMetadata()
     metadata.detect_from_dataframe(df)
@@ -48,7 +48,7 @@ def train_with_sdv(df, categorical_cols, epochs):
 def train_with_ctgan(df, categorical_cols, epochs):
     from ctgan import CTGAN
     
-    print("✓ Using standalone ctgan package")
+    print("[OK] Using standalone ctgan package")
     
     model = CTGAN(
         epochs=epochs,
@@ -136,7 +136,7 @@ def main():
             library_used = model_data['library']
             model = model_data['model']
             
-            print(f"\n✓ Simple generator trained successfully")
+            print(f"\n[OK] Simple generator trained successfully")
             print("   Note: This uses statistical sampling, not deep learning")
             print("   For better quality, use Python 3.9-3.13 with CTGAN")
     
@@ -149,7 +149,7 @@ def main():
     }
     # Use protocol 4 for better cross-platform compatibility
     joblib.dump(model_data, args.output, protocol=4)
-    print("   ✓ Model saved successfully")
+    print("   [OK] Model saved successfully")
     
     print(f"\nGenerating {args.preview_samples} synthetic samples for preview...")
     try:
@@ -162,7 +162,7 @@ def main():
         
         preview_path = 'sample_synthetic_preview.csv'
         synthetic_preview.to_csv(preview_path, index=False, encoding='utf-8-sig')
-        print(f"   ✓ Preview saved to {preview_path}")
+        print(f"   [OK] Preview saved to {preview_path}")
         print("\nSample synthetic data preview:")
         print(synthetic_preview.head(10))
         

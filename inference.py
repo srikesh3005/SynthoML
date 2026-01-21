@@ -14,7 +14,7 @@ def load_model(model_path: str = "ctgan_model.joblib") -> dict:
         print(f"Loading model from {model_path}...")
         try:
             _model_cache = joblib.load(model_path)
-            print(f"✓ Model loaded successfully (library: {_model_cache['library']})")
+            print(f"[OK] Model loaded successfully (library: {_model_cache['library']})")
         except FileNotFoundError:
             raise FileNotFoundError(
                 f"Model file '{model_path}' not found. "
@@ -54,7 +54,7 @@ def generate(n: int = 1000, seed: Optional[int] = None, model_path: str = "ctgan
                 np.random.seed(seed)
             synthetic_df = model.sample(n)
         
-        print(f"✓ Generated {len(synthetic_df)} rows")
+        print(f"[OK] Generated {len(synthetic_df)} rows")
         return synthetic_df
         
     except Exception as e:

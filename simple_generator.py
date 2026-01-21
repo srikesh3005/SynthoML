@@ -109,7 +109,7 @@ def train_simple_generator(data_path: str, categorical_cols: list = None):
 def save_simple_model(model_data: dict, output_path: str = 'ctgan_model.joblib'):
     """Save the simple generator model."""
     joblib.dump(model_data, output_path, protocol=4)
-    print(f"✓ Simple generator model saved to {output_path}")
+    print(f"[OK] Simple generator model saved to {output_path}")
 
 
 if __name__ == '__main__':

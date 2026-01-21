@@ -22,7 +22,7 @@ except ImportError:
         CTGAN_AVAILABLE = True
     except ImportError:
         CTGAN_AVAILABLE = False
-        print("⚠️  WARNING: CTGAN/SDV not available (likely Python 3.14+)")
+        print("[WARNING] CTGAN/SDV not available (likely Python 3.14+)")
         print("    Using simple statistical generator as fallback")
         print("    For deep learning quality, use Python 3.9-3.13")
 

@@ -202,9 +202,9 @@ def main():
     
     print("\nInterpretation:")
     if overall_score >= 0.85:
-        print("  ✓ Excellent - Synthetic data closely matches real data")
+        print("  [OK] Excellent - Synthetic data closely matches real data")
     elif overall_score >= 0.70:
-        print("  ✓ Good - Synthetic data captures most patterns")
+        print("  [OK] Good - Synthetic data captures most patterns")
     elif overall_score >= 0.50:
         print("  ~ Fair - Some patterns preserved, room for improvement")
     else:

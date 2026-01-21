@@ -32,7 +32,7 @@ def fix_csv_encoding(input_path: str, output_path: str = None):
         try:
             df = pd.read_csv(input_path, encoding=encoding)
             encoding_used = encoding
-            print(f"  ✓ Successfully read with encoding: {encoding}")
+            print(f"  [OK] Successfully read with encoding: {encoding}")
             break
         except (UnicodeDecodeError, UnicodeError) as e:
             continue
@@ -58,7 +58,7 @@ def fix_csv_encoding(input_path: str, output_path: str = None):
     # Save with UTF-8-sig (includes BOM for Windows compatibility)
     print(f"Writing to {output_path} with UTF-8-sig encoding...")
     df.to_csv(output_path, index=False, encoding='utf-8-sig')
-    print(f"  ✓ File saved successfully")
+    print(f"  [OK] File saved successfully")
     
     return True
 
