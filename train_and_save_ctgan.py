@@ -92,12 +92,26 @@ def main():
     
     print(f"\nLoading data from {args.data}...")
     df = pd.read_csv(args.data, encoding='utf-8-sig')
+    
+    # Clean column names to remove special characters
+    df.columns = [''.join(char if char.isalnum() or char == '_' else '_' for char in str(col)).strip('_') for col in df.columns]
+    
     print(f"   Loaded {len(df)} rows, {len(df.columns)} columns")
     print(f"   Columns: {list(df.columns)}")
     
+    # Clean data to handle encoding issues on Windows
     for col in df.columns:
         if df[col].dtype == 'object':
-            df[col] = df[col].astype(str)
+            # Convert to string and handle NaN/None values
+            df[col] = df[col].fillna('').astype(str)
+            # Encode to ASCII, replacing problematic characters
+            df[col] = df[col].apply(lambda x: x.encode('ascii', 'ignore').decode('ascii') if isinstance(x, str) else str(x))
+            # Remove any remaining non-printable characters
+            df[col] = df[col].apply(lambda x: ''.join(char for char in x if char.isprintable() or char.isspace()))
+            # Strip whitespace
+            df[col] = df[col].str.strip()
+            # Replace empty strings with a placeholder to avoid issues
+            df[col] = df[col].replace('', 'Unknown')
     
     categorical_cols = detect_categorical_columns(df)
     print(f"\nDetected categorical columns: {categorical_cols}")
@@ -133,7 +147,8 @@ def main():
         'categorical_columns': categorical_cols,
         'columns': list(df.columns)
     }
-    joblib.dump(model_data, args.output)
+    # Use protocol 4 for better cross-platform compatibility
+    joblib.dump(model_data, args.output, protocol=4)
     print("   ✓ Model saved successfully")
     
     print(f"\nGenerating {args.preview_samples} synthetic samples for preview...")

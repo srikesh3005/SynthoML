@@ -46,6 +46,15 @@ def fix_csv_encoding(input_path: str, output_path: str = None):
     
     print(f"  Loaded: {len(df)} rows, {len(df.columns)} columns")
     
+    # Clean string columns for Windows compatibility
+    for col in df.columns:
+        if df[col].dtype == 'object':
+            df[col] = df[col].fillna('').astype(str)
+            # Convert to ASCII, removing non-ASCII characters
+            df[col] = df[col].apply(lambda x: x.encode('ascii', 'ignore').decode('ascii') if isinstance(x, str) else str(x))
+            df[col] = df[col].str.strip()
+            df[col] = df[col].replace('', 'Unknown')
+    
     # Save with UTF-8-sig (includes BOM for Windows compatibility)
     print(f"Writing to {output_path} with UTF-8-sig encoding...")
     df.to_csv(output_path, index=False, encoding='utf-8-sig')

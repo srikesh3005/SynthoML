@@ -252,6 +252,14 @@ async def upload_and_train(
                 detail="Dataset must have at least 5 rows"
             )
         
+        # Clean string data for Windows compatibility
+        for col in df.columns:
+            if df[col].dtype == 'object':
+                df[col] = df[col].fillna('').astype(str)
+                df[col] = df[col].apply(lambda x: x.encode('ascii', 'ignore').decode('ascii') if isinstance(x, str) else str(x))
+                df[col] = df[col].str.strip()
+                df[col] = df[col].replace('', 'Unknown')
+        
         # Save with UTF-8-sig encoding for Windows compatibility
         upload_path = f"uploaded_data.csv"
         df.to_csv(upload_path, index=False, encoding='utf-8-sig')

@@ -78,6 +78,14 @@ def train_simple_generator(data_path: str, categorical_cols: list = None):
     """Train and return a simple generator model."""
     df = pd.read_csv(data_path, encoding='utf-8-sig')
     
+    # Clean string columns for Windows compatibility
+    for col in df.columns:
+        if df[col].dtype == 'object':
+            df[col] = df[col].fillna('').astype(str)
+            df[col] = df[col].apply(lambda x: x.encode('ascii', 'ignore').decode('ascii') if isinstance(x, str) else str(x))
+            df[col] = df[col].str.strip()
+            df[col] = df[col].replace('', 'Unknown')
+    
     # Auto-detect categorical if not specified
     if categorical_cols is None:
         categorical_cols = []
@@ -100,7 +108,7 @@ def train_simple_generator(data_path: str, categorical_cols: list = None):
 
 def save_simple_model(model_data: dict, output_path: str = 'ctgan_model.joblib'):
     """Save the simple generator model."""
-    joblib.dump(model_data, output_path)
+    joblib.dump(model_data, output_path, protocol=4)
     print(f"✓ Simple generator model saved to {output_path}")
 
 
